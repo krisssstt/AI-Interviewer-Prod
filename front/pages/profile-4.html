@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>AI-Интервьюер — Оповещения</title></head><body><script>
+let page = 'main.html';
+try { const saved = sessionStorage.getItem('inis.last-page'); if (/^(main|training|analytics|training-history|documents|achievements|kb-[12]|profile-[123]|daily-tasks|notification-settings|training-results)\.html(?:\?[^#]*)?$/.test(saved || '')) page = saved; } catch {}
+const target = new URL(page, location.href); target.searchParams.set('notifications','open'); location.replace(target.href);
+</script><noscript><a href="main.html">Открыть приложение</a></noscript></body></html>

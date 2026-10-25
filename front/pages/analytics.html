@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AI-интервьюер — Аналитика</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ui.css">
+<script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+</head>
+<body>
+
+<main class="screen fixed home">
+  <div class="app-header-group">
+  <header class="app-header">
+    <button class="header-action" type="button" data-open-menu aria-label="Открыть меню" aria-haspopup="dialog" aria-controls="side-menu"><img src="../images/icons/ic-menu.svg" alt=""></button>
+    <h1>Прогресс</h1>
+    <a class="header-action" href="profile-4.html" aria-label="Уведомления"><img src="../images/icons/ic-bell.svg" alt=""></a>
+  </header>
+  <div class="header-period-controls"><div class="seg" id="progress-period" role="group" aria-label="Период прогресса">
+      <button type="button" class="on" data-days="7" aria-pressed="true">7 дней</button>
+      <button type="button" data-days="30" aria-pressed="false">30 дней</button>
+      <button type="button" id="custom-period" aria-pressed="false" aria-haspopup="dialog" aria-controls="period-dialog">Период</button>
+    </div></div>
+  </div>
+  <div class="content-inner">
+    <p class="muted" id="selected-period" role="status"></p>
+    <div class="dashboard-grid">
+      <section class="ui-card"><h2>Ваш прогресс</h2><div class="progress-summary"><div class="score-ring"><span>70%</span></div><div><h3>Уровень подготовки</h3><p><span class="pill">↗ +12%</span> <span id="progress-duration">за 7 дней</span></p></div></div></section>
+      <section class="ui-card"><h2>Компетенции</h2><div class="skill-progress"><div><span>API Testing</span><strong>78%</strong></div><progress max="100" value="78" aria-label="API Testing: 78 процентов">78%</progress></div><div class="skill-progress"><div><span>SQL</span><strong>56%</strong></div><progress max="100" value="56" aria-label="SQL: 56 процентов">56%</progress></div><div class="skill-progress"><div><span>Тест дизайн</span><strong>84%</strong></div><progress max="100" value="84" aria-label="Тест дизайн: 84 процентов">84%</progress></div></section>
+    </div><section class="ui-card recommendation"><h2><img src="../images/icons/ic-ai-brain.svg" alt="">AI-Рекомендация</h2><p>Повторите SQL JOIN: эта тема чаще вызывает затруднения.</p><a class="text-link" href="main.html?plan=open#personal-plan">План подготовки ›</a></section>
+  </div>
+  <nav class="app-nav" aria-label="Основная навигация">
+    <a href="main.html"><img src="../images/icons/ic-nav-home-off.svg" alt=""><span>Главная</span></a>
+    <a href="training.html"><img src="../images/icons/ic-nav-chat.svg" alt=""><span>Тренировка</span></a>
+    <a href="kb-1.html"><img src="../images/icons/ic-nav-books.svg" alt=""><span>База</span></a>
+    <a href="analytics.html" aria-current="page"><img src="../images/icons/ic-nav-chart-on.svg" alt=""><span>Прогресс</span></a>
+    <a href="profile-1.html"><img src="../images/icons/ic-nav-profile.svg" alt=""><span>Профиль</span></a>
+  </nav>
+</main>
+<dialog class="period-dialog" id="period-dialog" aria-labelledby="period-title" aria-describedby="period-instruction">
+  <div class="period-dialog-heading"><h2 id="period-title">Выберите период</h2><button class="icon-button" type="button" id="close-period" aria-label="Закрыть выбор периода"><img src="../images/icons/ic-close.svg" alt=""></button></div>
+  <p class="muted" id="period-instruction">Выберите начальную и конечную даты.</p>
+  <div class="period-range-summary" id="period-range-fields">
+    <button type="button" id="choose-period-start" aria-controls="period-calendar" aria-expanded="false"><span>Начало</span><strong id="period-start">—</strong></button>
+    <button type="button" id="choose-period-end" aria-controls="period-calendar" aria-expanded="false"><span>Конец</span><strong id="period-end">—</strong></button>
+  </div>
+  <p id="period-error" role="alert" hidden>Конец периода должен быть не раньше начала.</p>
+  <div class="period-calendar" id="period-calendar" hidden>
+  <button type="button" class="calendar-back" id="back-to-period">‹ К выбору периода</button>
+  <div class="calendar-heading"><button type="button" class="icon-button" id="previous-month" aria-label="Предыдущий месяц">‹</button><h3 id="calendar-month" aria-live="polite"></h3><button type="button" class="icon-button" id="next-month" aria-label="Следующий месяц">›</button></div>
+  <div class="calendar-weekdays" aria-hidden="true"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
+  <div class="calendar-days" id="calendar-days" role="group" aria-labelledby="calendar-month"></div>
+  </div>
+  <div class="period-actions"><button type="button" class="form-button secondary" id="cancel-period">Отмена</button><button type="button" class="form-button" id="apply-period">Применить</button></div>
+</dialog>
+
+<script src="../js/progress.js"></script>
+</body>
+</html>

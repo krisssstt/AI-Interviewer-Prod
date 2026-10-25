@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <title>AI-интервьюер — Итоги сессии</title>
+  <link rel="stylesheet" href="../css/training-session.css">
+  <script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/daily-tasks.js" defer></script>
+<script src="../js/training-engine.js" defer></script>
+<script src="../js/training-session.js" defer></script>
+<link rel="stylesheet" href="../css/ui.css">
+
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+</head>
+<body>
+  <div class="session-viewport">
+    <main class="session-screen results-screen" data-training-results>
+      <div id="session-header-slot"></div>
+      <div id="results-content">
+        <h2 class="results-title">Итоги сессии</h2>
+        <div class="results-score" role="img" aria-label="Результат сессии: 70 процентов"><span>70%</span></div>
+        <p class="results-caption">Отличный результат. +12% за неделю</p>
+        <dl class="results-skills" aria-label="Результаты по темам">
+          <div class="result-skill"><dt>API testing</dt><dd>50%</dd><progress max="100" value="50" aria-label="API testing: 50 процентов">50%</progress></div>
+          <div class="result-skill"><dt>SQL</dt><dd>85%</dd><progress max="100" value="85" aria-label="SQL: 85 процентов">85%</progress></div>
+          <div class="result-skill"><dt>Test design</dt><dd>64%</dd><progress max="100" value="64" aria-label="Test design: 64 процента">64%</progress></div>
+        </dl>
+        <aside class="results-recommendation" aria-labelledby="recommendation-title">
+          <img src="../images/icons/ic-results-brain.svg" alt="">
+          <h3 id="recommendation-title">AI-Рекомендация</h3>
+          <p>Повторите SQL JOIN: на этой теме больше всего ошибок.</p>
+        </aside>
+        <button class="results-review" id="review-answers" type="button" aria-haspopup="dialog" aria-controls="review-dialog"><span>Разобрать ответы</span></button>
+        <a class="results-analytics" href="analytics.html">К аналитике</a>
+  <nav class="app-nav" aria-label="Основная навигация">
+    <a href="main.html"><img src="../images/icons/ic-nav-home-off.svg" alt=""><span>Главная</span></a>
+    <a href="training.html"><img src="../images/icons/ic-nav-chat.svg" alt=""><span>Тренировка</span></a>
+    <a href="kb-1.html"><img src="../images/icons/ic-nav-books.svg" alt=""><span>База</span></a>
+    <a href="analytics.html" aria-current="page"><img src="../images/icons/ic-nav-chart-on.svg" alt=""><span>Прогресс</span></a>
+    <a href="profile-1.html"><img src="../images/icons/ic-nav-profile.svg" alt=""><span>Профиль</span></a>
+  </nav>
+      </div>
+      <div class="review-overlay" id="review-overlay" hidden>
+        <section class="review-dialog" id="review-dialog" role="dialog" aria-modal="true" aria-labelledby="review-title">
+          <h2 id="review-title">Разбор ответа</h2>
+          <p id="review-status"></p>
+          <h3>Чем отличаются методы PUT и PATCH?</h3>
+          <h3>Ваш ответ</h3>
+          <p id="review-answer"></p>
+          <h3>Ориентир для самопроверки</h3>
+          <p>PUT задаёт полное новое представление ресурса. PATCH применяет частичные изменения. PUT идемпотентен; идемпотентность PATCH зависит от конкретной операции. Сравните также формат тела запроса и поведение полей, которые вы не передали.</p>
+          <button id="close-review" type="button">Понятно</button>
+        </section>
+      </div>
+      <noscript>Для открытия разбора ответа включите JavaScript.</noscript>
+    </main>
+  </div>
+</body>
+</html>

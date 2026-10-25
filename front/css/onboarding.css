@@ -1,0 +1,32 @@
+/* Onboarding uses natural flow at every size; only its content scrolls. */
+body.onboarding { height: 100dvh; overflow: hidden; background: #f5f8f6; }
+.onboarding-screen { display: grid; grid-template-rows: var(--ui-header-height) minmax(0, 1fr); width: 100%; height: 100dvh; }
+.onboarding .topbar { display: grid; grid-template-columns: 80px minmax(0, 1fr) 80px; height: var(--ui-header-height); margin: 0; padding: var(--ui-safe-top) var(--ui-inline-gutter) 0; background: #fff; border-bottom: 1px solid #dce8e1; }
+.onboarding .topbar .brand { display: contents; }
+.onboarding .brand img { grid-column: 1; grid-row: 1; width: 24px; height: 24px; }
+.onboarding .brand span { grid-column: 2; grid-row: 1; text-align: center; font: 600 18px/25px Manrope, sans-serif; color: #0d6c42; }
+.onboarding .skip { grid-column: 3; grid-row: 1; justify-self: end; padding: 12px 0; }
+.onboarding-scroll { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable both-edges; }
+.onboarding-content { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 640px; margin: 0 auto; padding: 24px var(--ui-inline-gutter) calc(24px + var(--ui-safe-bottom)); }
+.onboarding-content > * { min-width: 0; }
+.onboarding-illustration { display: block; width: min(100%, 300px); height: auto; max-height: clamp(160px, 32dvh, 300px); margin: 0 auto; object-fit: contain; }
+.onboarding-title { font: 700 clamp(28px, 5vw, 36px)/1.25 Manrope, sans-serif; }
+.onboarding-description { font: 400 18px/28px Manrope, sans-serif; }
+.onboarding-title, .onboarding-description { overflow-wrap: anywhere; }
+.onboarding-example { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid #afcdbf; border-radius: 12px; font: 500 15px/22px Manrope, sans-serif; }
+.onboarding-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.onboarding-chips span { padding: 4px 12px; border-radius: 12px; border: 1px solid #81b59e; background: #cfe8dd; font-size: 14px; }
+.onboarding-rag { display: flex; align-self: flex-start; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 12px; background: #cfe8dd; font: 500 12px/18px Manrope, sans-serif; }
+.onboarding-rag img { width: 16px; height: 16px; flex-shrink: 0; }
+.recommendation-example { flex-direction: row; align-items: center; background: #cfe8dd; }
+.recommendation-example img { width: 24px; height: 24px; flex-shrink: 0; }
+.onboarding-progress { display: flex; flex-direction: column; gap: 8px; }
+.onboarding-progress .dots { margin: 0; gap: 24px; }
+.onboarding-progress .counter { margin: 0; font: 700 12px/18px Manrope, sans-serif; }
+.onboarding-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.onboarding-note { text-align: center; font: 400 14px/22px Manrope, sans-serif; overflow-wrap: anywhere; }
+.onboarding a:focus-visible { outline: 3px solid #81b59e; outline-offset: -3px; }
+@media (max-width: 359px) {
+  .onboarding .topbar { grid-template-columns: 72px minmax(0, 1fr) 72px; }
+  .onboarding .brand span { font-size: 16px; }
+}

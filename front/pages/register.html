@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AI-интервьюер — Регистрация</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/ui.css">
+<script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+</head>
+<body>
+<main class="screen auth">
+  <header class="app-header">
+    <span class="header-action"><img src="../images/logo.svg" alt=""></span>
+    <span class="brand-title">AI-Интервьюер</span>
+    <span aria-hidden="true"></span>
+  </header>
+  <section class="auth-content content-inner auth-page" aria-labelledby="auth-title">
+    <h1 id="auth-title">Создайте аккаунт</h1>
+    <p class="auth-description">Начните свой путь к уверенности на собеседованиях</p>
+    <form class="auth-form" action="main.html">
+      <div class="form-field">
+        <label for="name">Имя</label>
+        <input class="form-control" id="name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input class="form-control" id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="form-field">
+        <label for="password">Пароль</label>
+        <input class="form-control" id="password" name="password" type="password" autocomplete="new-password" minlength="6" required>
+      </div>
+      <div class="form-field">
+        <label for="password2">Повторите пароль</label>
+        <input class="form-control" id="password2" name="password2" type="password" autocomplete="new-password" minlength="6" required>
+      </div>
+      <div class="agreement">
+        <input class="chk" id="agree" name="agree" type="checkbox" required>
+        <label class="agree" for="agree">Согласен с <a href="#">условиями</a> использования</label>
+      </div>
+      <button class="form-button" type="submit">Создать аккаунт</button>
+    </form>
+    <p class="auth-bottom">Уже есть аккаунт? <a href="login.html">Войти</a></p>
+  </section>
+</main>
+</body>
+</html>

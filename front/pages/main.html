@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AI-интервьюер — Главная</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ui.css">
+<script src="../js/daily-tasks.js" defer></script>
+<script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/training-engine.js" defer></script>
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+</head>
+<body>
+
+<main class="screen fixed home">
+  <header class="app-header">
+    <button class="header-action" type="button" data-open-menu aria-label="Открыть меню" aria-haspopup="dialog" aria-controls="side-menu"><img src="../images/icons/ic-menu.svg" alt=""></button>
+    <h1>Главная</h1>
+    <a class="header-action" href="profile-4.html" aria-label="Уведомления"><img src="../images/icons/ic-bell.svg" alt=""></a>
+  </header>
+  <div class="content-inner">
+    <section class="ui-card recommendation resume-interview" aria-labelledby="resume-title">
+      <h2 id="resume-title">Продолжить прохождение интервью?</h2>
+      <p>Вернитесь к вопросу и продолжите с сохранённым ответом.</p>
+      <a class="form-button" id="resume-interview" href="training-question-1.html">Продолжить интервью</a>
+    </section>
+    <div class="dashboard-grid">
+      <section class="ui-card"><h2>Ваш прогресс</h2><p>QA Engineer · Middle</p><div class="skill-progress"><div><span>Подготовка</span><strong>68%</strong></div><progress max="100" value="68" aria-label="Подготовка: 68 процентов">68%</progress></div><p class="muted">+12% за последние 7 дней</p></section>
+      <section class="ui-card"><h2>План на сегодня</h2>
+        <ul class="daily-plan" id="daily-plan" aria-label="План на сегодня"></ul>
+        <aside class="recommendation ui-card"><h3><img src="../images/icons/ic-ai-brain.svg" alt="">AI-Рекомендация</h3><p>Уделите внимание статусам HTTP перед следующей тренировкой.</p><p class="muted">Основано на истории ответов.</p></aside>
+      </section>
+    </div>
+  </div>
+  <nav class="app-nav" aria-label="Основная навигация">
+    <a href="main.html" aria-current="page"><img src="../images/icons/ic-nav-home.svg" alt=""><span>Главная</span></a>
+    <a href="training.html"><img src="../images/icons/ic-nav-chat.svg" alt=""><span>Тренировка</span></a>
+    <a href="kb-1.html"><img src="../images/icons/ic-nav-books.svg" alt=""><span>База</span></a>
+    <a href="analytics.html"><img src="../images/icons/ic-nav-chart.svg" alt=""><span>Прогресс</span></a>
+    <a href="profile-1.html"><img src="../images/icons/ic-nav-profile.svg" alt=""><span>Профиль</span></a>
+  </nav>
+</main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+.profile-form { display: flex; flex-direction: column; gap: var(--ui-gap, 16px); }
+.profile-form .form-control { border-color: #81b59e; }
+.skills-field { display: flex; flex-direction: column; gap: var(--ui-label-gap, 8px); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.chip2 { display: flex; align-items: center; gap: 8px; min-height: 32px; max-width: 100%; padding: 4px 8px 4px 12px; border: 1px solid #81b59e; border-radius: 12px; background: #cfe8dd; color: #2c5643; font: 600 14px/20px Manrope, sans-serif; }
+.chip2 span { min-width: 0; overflow-wrap: anywhere; }
+.chip2 button { display: grid; place-items: center; flex: 0 0 20px; width: 20px; height: 20px; margin: 0; padding: 0; border: 0; border-radius: 4px; background: transparent; cursor: pointer; }
+.chip2 button img { display: block; width: 8px; height: 8px; object-fit: contain; }
+.skill-entry { position: relative; }
+.skill-entry .form-control { padding-right: 56px; }
+.profile-form .save { background: var(--ui-action-color); }
+.profile-form .save:hover { background: var(--ui-action-hover); }
+.skill-entry .add-btn { position: absolute; inset: 3px 3px auto auto; width: 40px; height: 40px; border: 0; border-radius: 9px; background: var(--ui-action-color); cursor: pointer; }
+.skill-entry .add-btn:hover { background: var(--ui-action-hover); }
+.add-btn::before, .add-btn::after { content: ''; position: absolute; background: #fff; }
+.add-btn::before { left: 19px; top: 12px; width: 2px; height: 16px; }
+.add-btn::after { left: 12px; top: 19px; width: 16px; height: 2px; }

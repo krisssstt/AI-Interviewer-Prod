@@ -1,0 +1,62 @@
+/* Extend the existing UI tokens; shared spacing, typography and icon sizes. */
+[hidden] { display: none !important; }
+button, input, textarea, select { font-family: inherit; }
+.field-error { color: #a33232; font: 400 13px/20px Manrope, sans-serif; }
+[aria-invalid="true"] { border-color: #b04343 !important; }
+.header-action[data-open-notifications] { position: relative; }
+.notification-badge { position: absolute; top: 1px; right: 0; display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; border: 2px solid #fff; border-radius: 10px; background: #0d6c42; color: #fff; font: 700 10px/14px Manrope, sans-serif; }
+.roadmap { display: flex; flex-direction: column; gap: var(--ui-gap); }
+.roadmap summary { color: #428266; cursor: pointer; font: 600 15px/24px Manrope, sans-serif; padding: 12px 0; }
+.roadmap-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.roadmap-step { display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 16px; position: relative; padding: 16px 0; }
+.roadmap-step:not(:last-child)::before { content: ''; position: absolute; width: 2px; background: #cfe8dd; top: 46px; bottom: -16px; left: 15px; }
+.roadmap-state { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #cfe8dd; color: #194f37; font-size: 14px; }
+.roadmap-step[data-status="done"] .roadmap-state { background: #428266; color: #fff; }
+.roadmap-step[data-status="current"] .roadmap-state { border: 2px solid #428266; }
+.roadmap-step > div { display: flex; flex-direction: column; gap: 8px; }
+.ui-dialog { position: fixed; inset: 0; width: min(480px, calc(100vw - 2 * var(--ui-gutter))); max-width: none; max-height: calc(100dvh - var(--ui-safe-top) - var(--ui-safe-bottom) - 32px); margin: auto; padding: 24px; overflow-y: auto; border: 0; border-radius: 16px; color: #194f37; background: #fff; font: 400 15px/24px Manrope,sans-serif; }
+.ui-dialog[open] { display: flex; flex-direction: column; gap: 16px; }
+.ui-dialog::backdrop { background: rgb(25 49 37 / 40%); }
+.ui-dialog h2 { font: 600 18px/26px Manrope,sans-serif; }
+.dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.dialog-heading .icon-button { flex-shrink: 0; }
+.time-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.ui-dialog form { display: flex; flex-direction: column; gap: 16px; }
+.option-list { display: flex; flex-direction: column; gap: 8px; }
+.option-list button { min-height: 46px; border: 1px solid #cfe8dd; border-radius: 12px; padding: 12px; background: #fff; color: #194f37; text-align: left; font: 500 15px/22px Manrope,sans-serif; }
+.option-list button[aria-selected="true"] { background: #cfe8dd; border-color: #428266; }
+.question-code { padding: 16px; white-space: pre-wrap; overflow-wrap: anywhere; border-radius: 12px; background: #f5f8f6; font: 400 14px/22px monospace; color: #194f37; }
+.log-image { display: block; width: 100%; height: auto; border-radius: 12px; }
+.answer-input.code-answer { font-family: monospace; }
+.question-time.is-urgent { color: #a33232; }
+.review-item { display: flex; flex-direction: column; gap: 12px; padding: 16px 0; border-top: 1px solid #dce8e1; }
+.review-item pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 400 15px/24px Manrope,sans-serif; }
+.document-card { display: flex; flex-direction: column; gap: 16px; }
+.document-heading { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.document-heading img { width: 24px; height: 24px; flex-shrink: 0; }
+.document-heading h3 { overflow-wrap: anywhere; }
+.document-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.document-actions .form-button { flex: 1 1 120px; }
+.file-control { height: auto; min-height: 46px; padding: 12px; }
+.achievement-locked { opacity: .65; }
+.achievement-title { display: flex; align-items: center; gap: 12px; }
+.achievement-title img { width: 24px; height: 24px; }
+.session-setup { max-width: 720px; }
+.app-header .session-name { font-size: 16px; line-height: 22px; }
+.session-exit-dialog .exit-actions { gap: 16px; }
+@media (max-width:767px) {
+  .onboarding-content { padding-top: 24px; }
+  .ui-dialog { padding: 16px; }
+  .form-control, .answer-input { font-size: 16px; }
+  .app-header .session-name { font-size: 14px; line-height: 20px; }
+}
+.form-button:disabled { opacity: .55; cursor: default; }
+#upload-document { display: flex; flex-direction: column; gap: var(--ui-gap); }
+.agreement { flex-wrap: wrap; }
+.agreement .field-error { flex-basis: 100%; }
+/* The illustration slot has the same height on every onboarding step. */
+.onboarding-illustration { height: clamp(160px, 32dvh, 300px); max-height: none; object-fit: contain; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.document-picker { display: flex; align-items: center; gap: 12px; text-align: left; }
+.document-picker img { flex: 0 0 24px; width: 24px; height: 24px; }
+.document-picker span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AI-интервьюер — Документы и сертификаты</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/profile.css">
+<link rel="stylesheet" href="../css/ui.css">
+<script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+</head>
+<body>
+
+<main class="screen fixed home">
+  <header class="app-header">
+    <button class="header-action" type="button" data-open-menu aria-label="Открыть меню" aria-haspopup="dialog" aria-controls="side-menu"><img src="../images/icons/ic-menu.svg" alt=""></button>
+    <h1>Документы и сертификаты</h1>
+    <a class="header-action" href="profile-4.html" aria-label="Уведомления"><img src="../images/icons/ic-bell.svg" alt=""></a>
+  </header>
+  <div class="content-inner reading-page"><a class="text-link" href="profile-3.html">← К моим данным</a><section class="ui-card"><h2><img src="../images/icons/ic-hist-docs.svg" alt="">Добавить документ</h2><form id="upload-document" novalidate><div class="form-field"><label for="document-type-picker">Тип документа</label><button class="form-control profile-select specialization-select" id="document-type-picker" type="button" aria-haspopup="dialog" aria-controls="document-type-dialog"><span>CV / резюме</span></button><input type="hidden" id="document-type" value="cv"></div><div class="form-field"><label for="document-file">Файл</label><button class="form-control document-picker" type="button" id="choose-document" aria-controls="document-file" aria-describedby="file-help file-error"><img src="../images/icons/ic-hist-docs.svg" alt=""><span id="chosen-document-name">Выберите файл</span></button><input class="visually-hidden" tabindex="-1" id="document-file" type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" required aria-describedby="file-help file-error"><p class="muted" id="file-help">PDF, DOC, DOCX, PNG, JPG · до 10 МБ. Файлы сохраняются в этом браузере.</p><p class="field-error" id="file-error" role="alert" hidden></p></div><button class="form-button" type="submit">Загрузить документ</button></form><p class="muted" id="document-status" role="status"></p></section><div class="mode-grid" id="document-list"></div><p class="muted" id="document-empty" hidden>Вы ещё не загрузили документы.</p></div>
+  <nav class="app-nav" aria-label="Основная навигация">
+    <a href="main.html"><img src="../images/icons/ic-nav-home-off.svg" alt=""><span>Главная</span></a>
+    <a href="training.html"><img src="../images/icons/ic-nav-chat.svg" alt=""><span>Тренировка</span></a>
+    <a href="kb-1.html"><img src="../images/icons/ic-nav-books.svg" alt=""><span>База</span></a>
+    <a href="analytics.html"><img src="../images/icons/ic-nav-chart.svg" alt=""><span>Прогресс</span></a>
+    <a href="profile-1.html" aria-current="page"><img src="../images/icons/ic-nav-profile-on.svg" alt=""><span>Профиль</span></a>
+  </nav>
+</main>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"><title>AI-Интервьюер — Меню</title></head><body><script>
+let page = 'main.html';
+try { const saved = sessionStorage.getItem('inis.last-page'); if (/^(main|training|analytics|training-history|documents|achievements|kb-[12]|profile-[1-4]|training-question-[12]|training-results)\.html(?:\?[^#]*)?$/.test(saved || '')) page = saved; } catch {}
+location.replace(page + (page.includes('?') ? '&' : '?') + 'menu=open');
+</script><noscript><a href="main.html">Открыть приложение</a></noscript></body></html>

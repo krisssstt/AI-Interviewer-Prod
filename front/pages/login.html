@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AI-интервьюер — Вход</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/ui.css">
+<script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+<script src="../js/onboarding.js" defer></script>
+</head>
+<body>
+<main class="screen auth">
+  <header class="app-header">
+    <span class="header-action"><img src="../images/logo.svg" alt=""></span>
+    <span class="brand-title">AI-Интервьюер</span>
+    <span aria-hidden="true"></span>
+  </header>
+  <section class="auth-content content-inner auth-page" aria-labelledby="auth-title">
+    <picture class="auth-art"><source media="not all" srcset="../images/robot-dark.png" data-dark-art><img class="auth-illustration" src="../images/robot.png" alt=""></picture>
+    <h1 id="auth-title">С возвращением</h1>
+    <p class="auth-description">Продолжите подготовку к IT-интервью</p>
+    <form class="auth-form" action="main.html">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input class="form-control" id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="form-field">
+        <label for="password">Пароль</label>
+        <input class="form-control" id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <a class="forgot-password" href="forgot-password.html">Забыли пароль?</a>
+      <button class="form-button" type="submit">Войти</button>
+    </form>
+    <div class="auth-divider">или</div>
+    <a class="form-button secondary" href="main.html"><img src="../images/github-icon.svg" alt="">Продолжить через GitHub</a>
+    <p class="auth-bottom">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+  </section>
+</main>
+</body>
+</html>

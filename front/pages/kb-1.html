@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AI-интервьюер — База знаний</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ui.css">
+<script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+</head>
+<body>
+
+<main class="screen fixed home">
+  <header class="app-header">
+    <button class="header-action" type="button" data-open-menu aria-label="Открыть меню" aria-haspopup="dialog" aria-controls="side-menu"><img src="../images/icons/ic-menu.svg" alt=""></button>
+    <h1>База знаний</h1>
+    <a class="header-action" href="profile-4.html" aria-label="Уведомления"><img src="../images/icons/ic-bell.svg" alt=""></a>
+  </header>
+  <div class="content-inner">
+    <form class="searchf" id="sf" role="search"><input class="form-control" id="q" type="search" placeholder="Поиск вопросов..." aria-label="Поиск вопросов" autocomplete="off"><img src="../images/icons/ic-search.svg" alt=""></form>
+    <div class="filter-chips" id="chips" aria-label="Темы"><button type="button" class="chipk on"><span>API Testing</span></button><button type="button" class="chipk"><span>HTTP testing</span></button><button type="button" class="chipk"><span>Java</span></button><button type="button" class="chipk"><span>Docker</span></button><button type="button" class="chipk"><span>Теория тестирования</span></button><button type="button" class="chipk"><span>Charles Proxy</span></button><button type="button" class="chipk"><span>SQL</span></button></div>
+    <div class="question-grid" id="cards"><article class="kcard ui-card" data-question="q1"><div class="question-row"><a class="kc" href="kb-2.html" aria-label="Чем отличаются методы PUT и PATCH?"><h2>Чем отличаются методы PUT и PATCH?</h2></a><button type="button" class="starb" aria-label="В избранное" aria-pressed="false"><img src="../images/icons/ic-star.svg" alt=""></button></div><div class="question-tags"><span class="muted">Легкий</span><span class="pill">API testing</span></div></article><article class="kcard ui-card" data-question="q2"><div class="question-row"><a class="kc" href="#" aria-label="Что такое SQL JOIN и какие бывают виды?"><h2>Что такое SQL JOIN и какие бывают виды?</h2></a><button type="button" class="starb" aria-label="В избранное" aria-pressed="false"><img src="../images/icons/ic-star.svg" alt=""></button></div><div class="question-tags"><span class="muted">Средний</span><span class="pill">API testing</span></div></article><article class="kcard ui-card" data-question="q3"><div class="question-row"><a class="kc" href="#" aria-label="Чем образ Docker отличается от контейнера?"><h2>Чем образ Docker отличается от контейнера?</h2></a><button type="button" class="starb" aria-label="В избранное" aria-pressed="false"><img src="../images/icons/ic-star.svg" alt=""></button></div><div class="question-tags"><span class="muted">Средний</span><span class="pill">API testing</span></div></article><article class="kcard ui-card" data-question="q4"><div class="question-row"><a class="kc" href="#" aria-label="Что такое Mockito и зачем он нужен?"><h2>Что такое Mockito и зачем он нужен?</h2></a><button type="button" class="starb" aria-label="В избранное" aria-pressed="false"><img src="../images/icons/ic-star.svg" alt=""></button></div><div class="question-tags"><span class="muted">Сложный</span><span class="pill">API testing</span></div></article></div>
+    <p id="empty-questions" class="muted" role="status" hidden>Вопросы не найдены.</p>
+  </div>
+  <nav class="app-nav" aria-label="Основная навигация">
+    <a href="main.html"><img src="../images/icons/ic-nav-home-off.svg" alt=""><span>Главная</span></a>
+    <a href="training.html"><img src="../images/icons/ic-nav-chat.svg" alt=""><span>Тренировка</span></a>
+    <a href="kb-1.html" aria-current="page"><img src="../images/icons/ic-nav-books-on.svg" alt=""><span>База</span></a>
+    <a href="analytics.html"><img src="../images/icons/ic-nav-chart.svg" alt=""><span>Прогресс</span></a>
+    <a href="profile-1.html"><img src="../images/icons/ic-nav-profile.svg" alt=""><span>Профиль</span></a>
+  </nav>
+</main>
+<script src="../js/screens2.js"></script>
+</body>
+</html>

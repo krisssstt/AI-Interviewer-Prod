@@ -1,0 +1,16 @@
+.auth-content { padding: 32px var(--ui-gutter, 16px) 24px; }
+.auth-illustration { display: block; width: 280px; max-width: 100%; height: 176px; object-fit: contain; margin: -16px auto 16px; }
+.auth-content h1 { font: 700 32px/40px Manrope, sans-serif; color: #194f37; }
+.auth-description { margin-top: 8px; font: 400 16px/24px Manrope, sans-serif; color: #194f37; opacity: .75; }
+.auth-form { display: flex; flex-direction: column; gap: var(--ui-gap, 16px); margin-top: 28px; }
+.auth-form .form-button { margin-top: 8px; }
+.forgot-password { align-self: flex-end; font: 600 13px/18px Manrope, sans-serif; color: #428266; }
+.auth-divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; color: #428266; font: 400 12px/18px Manrope, sans-serif; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: #81b59e; }
+.auth-bottom { margin-top: 24px; text-align: center; font: 400 14px/22px Manrope, sans-serif; }
+.auth-bottom a, .agree a { color: #428266; text-decoration: underline; }
+.agreement { display: flex; align-items: flex-start; gap: 8px; margin-top: 4px; }
+.chk { appearance: none; flex: 0 0 18px; width: 18px; height: 18px; margin: 1px 0 0; border: 1.5px solid #194f37; border-radius: 5px; background: #fff; cursor: pointer; }
+.chk:checked { background: #31584b; box-shadow: inset 0 0 0 3px #fff; }
+.chk:focus-visible { outline: 3px solid #81b59e; outline-offset: 2px; }
+.agree { font: 400 13px/20px Manrope, sans-serif; color: #194f37; }

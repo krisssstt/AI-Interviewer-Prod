@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script src="../js/theme.js"></script>
+<script src="../js/ui-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AI-интервьюер — Выбор направления</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/ui.css">
+<script src="../js/platform-data.js" defer></script>
+<script src="../js/progression.js" defer></script>
+<script src="../js/technology-tracks.js" defer></script>
+<script src="../js/training-engine.js" defer></script>
+<script src="../js/enhancements.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/notifications.js" defer></script>
+<link rel="stylesheet" href="../css/enhancements.css">
+<link rel="stylesheet" href="../css/refinements.css">
+<link rel="stylesheet" href="../css/themes.css">
+<script src="../js/refinements.js" defer></script>
+<script src="../js/direction-picker.js" defer></script>
+</head>
+<body>
+<main class="screen auth">
+  <header class="app-header">
+    <span class="header-action"><img src="../images/logo.svg" alt=""></span>
+    <span class="brand-title">AI-Интервьюер</span>
+    <span aria-hidden="true"></span>
+  </header>
+  <section class="auth-content content-inner auth-page"><p class="muted" id="direction-step">Шаг 1 из 2</p><h1 id="direction-heading" tabindex="-1">Выберите направление</h1><p class="auth-description" id="direction-description">Сначала выберите общую область, затем — язык или технологию для подготовки.</p><div class="mode-grid direction-grid" id="direction-options" role="radiogroup" aria-label="Направление"></div><div class="mode-grid direction-grid" id="technology-options" role="radiogroup" aria-label="Язык или технология" hidden></div><div class="direction-actions"><button class="form-button secondary" type="button" id="back-direction" hidden>Назад</button><button class="form-button" type="button" id="continue-direction" disabled>Выбрать технологию</button></div><a class="text-link" href="login.html">← Вернуться ко входу</a></section>
+</main>
+</body>
+</html>
