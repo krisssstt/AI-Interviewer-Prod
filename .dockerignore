@@ -1,0 +1,7 @@
+.git
+.venv
+.env
+*.db
+node_modules
+front/tests
+tests
