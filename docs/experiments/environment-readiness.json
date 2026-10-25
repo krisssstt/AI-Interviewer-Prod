@@ -1,0 +1,19 @@
+{
+  "docker_cli": false,
+  "database": {
+    "dialect": "sqlite",
+    "schema": "af9018f48715",
+    "available": true
+  },
+  "models": {
+    "embedding": {
+      "available": false,
+      "error": "model_not_pinned"
+    },
+    "llm": {
+      "available": false,
+      "error": "model_not_pinned"
+    }
+  },
+  "full_rag_ready": false
+}

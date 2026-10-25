@@ -2,12 +2,13 @@ import hashlib
 import time
 
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import cast, delete, func, or_, select
+from sqlalchemy import cast, delete, exists, func, or_, select
 
+from ..ai.retention import purge_private_document
 from ..competencies.models import Competency
 from ..errors import RuleError
 from .domain import clean_text, terms
-from .models import Chunk, Document, DocumentVersion, Embedding, IngestionJob
+from .models import Chunk, Document, DocumentVersion, Embedding, IngestionJob, VersionCompetency
 
 
 def access(user_id):
@@ -76,7 +77,8 @@ def detail(db, actor_id, document_id):
 
 
 def remove(db, actor, document_id):
-    editable(db, actor, document_id)
+    document = editable(db, actor, document_id)
+    purge_private_document(db, document)
     db.execute(delete(Document).where(Document.id == document_id))
     db.commit()  # FK cascade deletes versions, raw text, chunks, embeddings and jobs.
 
@@ -109,7 +111,7 @@ def job_view(db, actor, job_id):
             'embedding_model': job.model_key}
 
 
-def search(db, actor_id, query, competency_id, mode, embedder, limit=5):
+def search(db, actor_id, query, competency_id, mode, embedder, limit=5, include_private=True):
     # ACL, active version and competency filters are applied to both candidate queries
     # before sending anything to a model. Raw private text never crosses users.
     base = select(Chunk, DocumentVersion, Document).select_from(Chunk).join(
@@ -117,8 +119,11 @@ def search(db, actor_id, query, competency_id, mode, embedder, limit=5):
         Document, Document.id == DocumentVersion.document_id).where(
         access(actor_id), DocumentVersion.version == Document.current_version,
         DocumentVersion.status.in_(['text_ready', 'ready']))
+    if not include_private:
+        base = base.where(Document.scope == 'public')
     if competency_id:
-        base = base.where(DocumentVersion.competency_id == competency_id)
+        base = base.where(or_(DocumentVersion.competency_id == competency_id, exists().where(
+            VersionCompetency.version_id == DocumentVersion.id, VersionCompetency.competency_id == competency_id)))
     query_terms = terms(query)
     lexical = []
     if mode in {'lexical', 'hybrid'}:
@@ -169,7 +174,9 @@ def search(db, actor_id, query, competency_id, mode, embedder, limit=5):
                         'section': chunk.section, 'start_offset': chunk.start_offset,
                         'end_offset': chunk.end_offset, 'language': version.language,
                         'received_at': version.received_at, 'license': version.license,
-                        'competency_id': version.competency_id, 'rank_score': ranks[chunk_id]})
+                        'competency_id': competency_id or version.competency_id,
+                        'primary_competency_id': version.competency_id,
+                        'scope': document.scope, 'rank_score': ranks[chunk_id]})
     return {'mode': mode, 'sources': results, 'context_chars': chars,
             'status': 'found' if results else 'no_sources',
             'embedding_model': embedder.model_key if mode != 'lexical' else None,

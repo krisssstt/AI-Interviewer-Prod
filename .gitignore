@@ -11,3 +11,4 @@ front/tests/artifacts/
 test-results/
 playwright-report/
 dist/
+.runtime/

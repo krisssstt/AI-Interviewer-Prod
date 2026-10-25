@@ -4,6 +4,7 @@ COPY requirements.lock ./
 RUN pip install --no-cache-dir -r requirements.lock
 COPY backend ./backend
 COPY front ./front
+COPY corpus ./corpus
 COPY alembic.ini ./
 RUN useradd --create-home app
 USER app

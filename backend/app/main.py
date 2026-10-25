@@ -10,6 +10,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError, OperationalError
 
 from . import models  # noqa: F401
+from .ai.http import router as study
 from .competencies.http import router as competencies
 from .config import Settings
 from .db import database
@@ -75,7 +76,7 @@ def create_app(settings=None):
             "base-uri 'self'; form-action 'self'")
         return response
 
-    for router in [identity, competencies, training, learning, knowledge]:
+    for router in [identity, competencies, training, learning, knowledge, study]:
         app.include_router(router)
 
     @app.get('/api/health')
@@ -83,7 +84,9 @@ def create_app(settings=None):
         try:
             with engine.connect() as connection:
                 revision = connection.execute(text('SELECT version_num FROM alembic_version')).scalar()
-            return {'status': 'ok', 'schema': revision, 'ai': 'not_integrated'}
+            from .ai.providers import configured_digest
+            return {'status': 'ok', 'schema': revision,
+                    'ai': 'adapter_configured' if configured_digest(settings,'llm') else 'model_not_pinned'}
         except OperationalError:
             return JSONResponse({'status': 'not_ready', 'detail': 'Выполните миграции.'}, 503)
 

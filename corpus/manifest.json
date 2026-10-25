@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {"id":"kb-qa-http","version":1,"file":"qa/http.md","title":"HTTP: методы, статусы и валидаторы","language":"ru","license":"Project-authored educational material","url":"https://www.rfc-editor.org/rfc/rfc9110.html","competencies":["qa-http-methods","qa-http-status","qa-http-cache"]},
+    {"id":"kb-qa-api","version":1,"file":"qa/api-testing.md","title":"Проверка API: контракт, доступ и повторы","language":"ru","license":"Project-authored educational material","url":"https://spec.openapis.org/oas/v3.1.0","competencies":["qa-api-contract","qa-api-access","qa-api-retry"]},
+    {"id":"kb-qa-sql","version":1,"file":"qa/sql.md","title":"SQL: NULL, соединения и группы","language":"ru","license":"Project-authored educational material","url":"https://www.postgresql.org/docs/16/queries.html","competencies":["qa-sql-null","qa-sql-join","qa-sql-groups"]},
+    {"id":"kb-qa-design","version":1,"file":"qa/test-design.md","title":"Тест-дизайн: эквивалентность и границы","language":"ru","license":"Project-authored educational material","url":"https://www.istqb.org/certifications/certified-tester-foundation-level","competencies":["qa-design-boundary","qa-design-partitions"]},
+    {"id":"kb-qa-logs","version":1,"file":"qa/logs.md","title":"Диагностика ошибок по журналам","language":"ru","license":"Project-authored educational material","url":"https://opentelemetry.io/docs/specs/otel/logs/data-model/","competencies":["qa-logs-diagnosis"]}
+  ]
+}

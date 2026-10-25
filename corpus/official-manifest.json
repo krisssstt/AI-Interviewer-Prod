@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "id": "official-rfc9110",
+      "version": 1,
+      "file": "official/rfc9110-selected.md",
+      "title": "RFC 9110: method properties, 401/403 and 304",
+      "language": "en",
+      "license": "IETF Trust Legal Provisions / BCP 78; notice in raw RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.txt",
+      "competencies": [
+        "qa-http-methods",
+        "qa-http-status",
+        "qa-http-cache",
+        "qa-api-retry"
+      ],
+      "sha256": "369bda39392c42abace39fb096ea38c4b5f049e6eeb42f41557b2448f70eb554",
+      "received_at": 1792949518.9191806
+    },
+    {
+      "id": "official-pg16-joins",
+      "version": 2,
+      "file": "official/queries-table-expressions-v2.md",
+      "title": "PostgreSQL 16: Table Expressions",
+      "language": "en",
+      "license": "PostgreSQL License; see official/POSTGRESQL-LICENSE.txt",
+      "url": "https://www.postgresql.org/docs/16/queries-table-expressions.html",
+      "competencies": [
+        "qa-sql-join",
+        "qa-sql-groups"
+      ],
+      "sha256": "cc6c0933e03672071168b5fff04cf3dea5d9a38026920680f3c5c1b919af3433",
+      "received_at": 1792949518.9426017
+    },
+    {
+      "id": "official-pg16-null",
+      "version": 2,
+      "file": "official/functions-comparison-v2.md",
+      "title": "PostgreSQL 16: Comparison Functions",
+      "language": "en",
+      "license": "PostgreSQL License; see official/POSTGRESQL-LICENSE.txt",
+      "url": "https://www.postgresql.org/docs/16/functions-comparison.html",
+      "competencies": [
+        "qa-sql-null"
+      ],
+      "sha256": "a08689f4241eafd12315525fe5759e995408baf637d0ae8f8cb9b3b1726048a1",
+      "received_at": 1792949518.9675345
+    }
+  ]
+}

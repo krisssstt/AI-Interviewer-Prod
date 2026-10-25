@@ -123,22 +123,25 @@ def test_restart_lease_recovery_and_bounded_retry(client,app):
 
 @pytest.mark.parametrize('response',[{'embeddings':[[0,0,0]]},{'embeddings':[]},{'embeddings':[[1,2]]},{'bad':1}])
 def test_embedding_contract_invalid_response(response):
-    adapter=OllamaEmbedder(Settings(embedding_dimensions=3),httpx.MockTransport(
-        lambda request:httpx.Response(200,json=response)))
+    adapter=OllamaEmbedder(Settings(embedding_dimensions=3, embedding_digest='a'*64),httpx.MockTransport(
+        lambda request:httpx.Response(200,json={'models':[{'name':'nomic-embed-text:latest','digest':'a'*64}]}
+                                     if request.url.path=='/api/tags' else response)))
     with pytest.raises(EmbeddingUnavailable):
         adapter.embed(['private document'])
 
 
 def test_embedding_contract_success_and_timeout():
     def handler(request):
+        if request.url.path=='/api/tags':
+            return httpx.Response(200,json={'models':[{'name':'nomic-embed-text:latest','digest':'a'*64}]})
         assert request.url.path=='/api/embed'
         assert b'"truncate":false' in request.content
         return httpx.Response(200,json={'embeddings':[[1.0,2.0,3.0]]})
-    adapter=OllamaEmbedder(Settings(embedding_dimensions=3),httpx.MockTransport(handler))
+    adapter=OllamaEmbedder(Settings(embedding_dimensions=3, embedding_digest='a'*64),httpx.MockTransport(handler))
     assert adapter.embed(['test'])==[[1.0,2.0,3.0]]
     def timeout(request):
         raise httpx.ReadTimeout('private provider message')
-    adapter=OllamaEmbedder(Settings(embedding_dimensions=3),httpx.MockTransport(timeout))
+    adapter=OllamaEmbedder(Settings(embedding_dimensions=3, embedding_digest='a'*64),httpx.MockTransport(timeout))
     with pytest.raises(EmbeddingUnavailable,match='embedding_provider_unavailable_or_invalid'):
         adapter.embed(['private text'])
 

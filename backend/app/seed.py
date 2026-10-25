@@ -8,6 +8,7 @@ from .competencies.seed_data import records
 from .config import Settings
 from .db import database
 from .knowledge.adapters import OllamaEmbedder
+from .knowledge.corpus import import_corpus
 from .knowledge.domain import chunk_text
 from .knowledge.models import Chunk, Document, DocumentVersion, IngestionJob
 
@@ -48,6 +49,10 @@ def seed(db):
         db.add_all([Chunk(version_id=version.id, **part) for part in chunk_text(text)])
         db.add(IngestionJob(version_id=version.id, model_key=model_key))
     db.commit()
+    import_corpus(db, model_key)
+    from .knowledge.corpus import CORPUS
+    if (CORPUS / 'official-manifest.json').exists():
+        import_corpus(db, model_key, CORPUS / 'official-manifest.json')
     return len(db.scalars(select(Competency)).all())
 
 

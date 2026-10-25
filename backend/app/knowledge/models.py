@@ -50,6 +50,12 @@ class Chunk(Base):
     text: Mapped[str]
 
 
+class VersionCompetency(Base):
+    __tablename__ = 'document_competencies'
+    version_id: Mapped[str] = mapped_column(ForeignKey('document_versions.id', ondelete='CASCADE'), primary_key=True)
+    competency_id: Mapped[str] = mapped_column(ForeignKey('competencies.id'), primary_key=True, index=True)
+
+
 class Embedding(Base):
     __tablename__ = 'chunk_embeddings'
     __table_args__ = (UniqueConstraint('chunk_id', 'model_key'),

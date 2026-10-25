@@ -68,6 +68,8 @@
     const plan = await api('/plan');
     content.innerHTML = `<h2>Здравствуйте, ${e(user.name)}</h2><p>QA Engineer · учебный прототип серверной версии. RAG и открытые ответы ещё не подключены.</p><div class="server-actions"><button class="form-button" id="diagnostic">Начать диагностику</button><a class="form-button secondary" href="training.html">К тренировкам</a></div><p class="server-meta">План v${plan.version} · ${e(plan.rules_version)}. Посещение материала и ответ с подсказкой не подтверждают знание. Уровни — внутренняя учебная модель.</p>${plan.items.map(item => `<article class="server-card"><h3>${e(item.topic)}</h3><p>${e(item.description)}</p><p>${e(item.reason)}</p><p class="server-meta">Самостоятельных ответов: ${item.independent_attempts}; балл: ${item.score??'нет данных'}; ${e(item.confidence)}</p>${item.prerequisites_to_review.length?`<p class="server-meta">Предварительно повторить: ${e(item.prerequisites_to_review.join(', '))}</p>`:''}<a href="training.html?competency=${encodeURIComponent(item.competency_id)}">Практика по компетенции →</a></article>`).join('')}`;
     document.getElementById('diagnostic').onclick = event => start(event.target, 'diagnostic', null);
+    content.querySelector('p').textContent='QA Engineer · объективные тренировки и отдельный режим генеративного обучения.';
+    const studyLink=document.createElement('a');studyLink.href='study.html';studyLink.className='form-button secondary';studyLink.textContent='Объяснение и открытое упражнение';document.getElementById('diagnostic').parentElement.append(studyLink);
   }
   async function start(button, mode, competency_id) {
     const request_key = button.dataset.requestKey || (button.dataset.requestKey=key());
@@ -169,6 +171,66 @@
     document.getElementById('logout').onclick=event=>run(event.target,async()=>{await api('/auth/logout',{method:'POST',body:{}});location.assign('login.html');});
   }
 
+  async function study() {
+    shell('Обучение и открытые ответы');
+    const taskId=params.get('id');
+    const catalog=await api('/catalog');
+    const history=await api('/study/tasks');
+    const historyHTML=`<details><summary>История учебных заданий (${history.length})</summary>${history.map(t=>`<p><a href="study.html?id=${encodeURIComponent(t.id)}">${t.kind==='lesson'?'Занятие':'Проверка ответа'} · ${e(t.competency_id)} · ${e(t.status)}</a></p>`).join('')}</details>`;
+    const citation=(block,available)=>`<article class="server-card"><p>${e(block.text)}</p>${block.support.map(s=>{
+      const source=available.find(a=>a.id===s.source_id);
+      return `<blockquote>${e(s.quote)}</blockquote><p class="server-meta">${e(source?.title||s.source_id)} · версия ${source?.version??'—'}</p>`;
+    }).join('')}</article>`;
+    if(!taskId) {
+      content.innerHTML=`<p>Объяснение → пример → упражнение → разбор → новое задание. Оценки этого режима учебные и показываются отдельно от контрольного интервью.</p><form id="study-create" class="server-card"><label for="study-competency">Компетенция</label><select class="form-control" id="study-competency">${catalog.competencies.map(c=>`<option value="${e(c.id)}">${e(c.description)}</option>`).join('')}</select><label for="study-level">Сложность</label><select class="form-control" id="study-level"></select><label for="study-query">Что объяснить подробнее (необязательно)</label><input class="form-control" id="study-query" maxlength="300"><label><input type="checkbox" id="study-private"> Использовать мои частные материалы</label><p class="server-meta">При удалении частного материала связанные занятия и разборы также удаляются.</p><button class="form-button">Подготовить занятие</button></form>${historyHTML}`;
+      const select=document.getElementById('study-competency'),form=document.getElementById('study-create');
+      const setLevels=()=>{document.getElementById('study-level').innerHTML=catalog.competencies.find(c=>c.id===select.value).levels.map(level=>`<option>${e(level)}</option>`).join('');};
+      if(catalog.competencies.some(c=>c.id===params.get('competency'))) select.value=params.get('competency');
+      setLevels();select.addEventListener('change',setLevels);
+      let requestKey=key();form.addEventListener('input',()=>requestKey=key());
+      form.onsubmit=event=>{event.preventDefault();run(form.querySelector('button'),async()=>{
+        const task=await api('/study/lessons',{method:'POST',body:{competency_id:select.value,difficulty:document.getElementById('study-level').value,query:document.getElementById('study-query').value,include_private:document.getElementById('study-private').checked,request_key:requestKey}});
+        location.assign('study.html?id='+encodeURIComponent(task.id));
+      });};return;
+    }
+    let polls=0;
+    const refresh=async()=>{
+      const task=await api('/study/tasks/'+encodeURIComponent(taskId));
+      const pending=['queued','running','retry'].includes(task.status);
+      const labels={queued:'Ожидает обработки',running:'Обрабатывается',retry:'Повторная попытка проверки',failed:'Обработка не завершилась',no_sources:'Источники не найдены',completed:'Готово'};
+      content.innerHTML=`<p class="server-count">${e(labels[task.status])}</p><p id="study-progress" role="status">${pending?'Задание сохранено. Можно вернуться позднее через историю.':''}</p>${task.error_code?`<p class="server-status error">${e({model_not_pinned:'Модель ещё не настроена.',model_digest_mismatch:'Изменилась версия модели; требуется проверка настройки.',provider_unavailable:'Модель недоступна.',provider_timeout:'Модель не успела ответить.',retrieval_unavailable:'Поиск источников временно недоступен.',no_verified_sources:'Недостаточно материалов по запросу.',daily_ai_budget_exhausted:'Достигнут дневной лимит ИИ. Повторите в следующий день.'}[task.error_code]||'Ответ модели не прошёл проверку. Оценка не выставлена.')}</p>`:''}<div id="study-artifact" class="content-inner" style="padding:0"></div>${pending?'<button id="study-refresh" class="form-button secondary">Обновить результат</button>':''}${['failed','no_sources','retry'].includes(task.status)&&task.attempts<3?'<button id="study-retry" class="form-button secondary">Повторить обработку</button>':''}<a href="study.html">Новое занятие</a>${historyHTML}`;
+      const artifact=document.getElementById('study-artifact');
+      if(task.status==='completed'&&task.kind==='lesson') {
+        const output=task.output;
+        artifact.innerHTML=`<h2>Объяснение</h2>${output.explanation.map(b=>citation(b,task.sources)).join('')}<h2>Примеры</h2>${output.examples.map(b=>citation(b,task.sources)).join('')}<h2>Типичные ошибки</h2>${output.common_mistakes.map(b=>citation(b,task.sources)).join('')}<form id="study-answer" class="server-card"><h2>Самостоятельное упражнение</h2><pre>${e(output.exercise.title)}</pre><label for="study-answer-text">Ваш ответ</label><textarea class="form-control" id="study-answer-text" rows="8" maxlength="10000" required></textarea><button class="form-button">Проверить по критериям</button></form><button id="study-hint" class="form-button secondary">Следующая подсказка</button><p id="study-hint-text" role="status"></p>${output.exercise.expected_answer?`<details><summary>Ожидаемые элементы после проверки</summary><p>${e(output.exercise.expected_answer)}</p></details>`:''}`;
+        const draftId=`study-draft:${user.id}:${taskId}`,draft=readDraft(draftId)||{text:'',request_key:key()};
+        const input=document.getElementById('study-answer-text');input.value=draft.text;
+        input.oninput=()=>{draft.text=input.value;draft.request_key=key();saveDraft(draftId,draft);};
+        document.getElementById('study-answer').onsubmit=event=>{event.preventDefault();run(event.target.querySelector('button'),async()=>{
+          const evaluated=await api('/study/lessons/'+encodeURIComponent(taskId)+'/answers',{method:'POST',body:{answer:input.value,request_key:draft.request_key}});
+          location.assign('study.html?id='+encodeURIComponent(evaluated.id));
+        });};
+        document.getElementById('study-hint').onclick=event=>run(event.target,async()=>{
+          const hint=await api('/study/lessons/'+encodeURIComponent(taskId)+'/hint',{method:'POST',body:{}});
+          document.getElementById('study-hint-text').textContent=hint.text+' Ответ будет отмечен как выполненный с подсказкой.';
+          if(!hint.remaining) event.target.hidden=true;
+        });
+      } else if(task.status==='completed') {
+        artifact.innerHTML=`<h2>Учебный результат: ${task.score}%</h2><p>${task.hint_used?'Ответ с подсказкой':'Ответ без подсказки'}</p><h3>Ваш ответ</h3><pre>${e(task.answer)}</pre>${task.output.criteria.map(grade=>`<article class="server-card"><h3>${e(task.rubric.find(r=>r.id===grade.criterion_id)?.description||grade.criterion_id)}: ${grade.score}</h3><p>${e(grade.explanation.text)}</p><p>Фрагменты вашего ответа:</p>${grade.evidence.map(v=>`<blockquote>${e(v)}</blockquote>`).join('')}<p>Ошибки: ${e(grade.errors.join('; ')||'не отмечены')}</p><p>Пропуски: ${e(grade.omissions.join('; ')||'не отмечены')}</p></article>`).join('')}<h3>Рекомендации</h3>${task.output.recommendations.map(b=>citation(b,task.sources)).join('')}<details><summary>Ожидаемый ответ</summary><pre>${e(task.expected_answer)}</pre></details><button id="study-reinforce" class="form-button">Новое задание для закрепления</button><p class="server-meta">${e(task.notice)}</p>`;
+        document.getElementById('study-reinforce').onclick=event=>run(event.target,async()=>{
+          const next=await api('/study/lessons',{method:'POST',body:{competency_id:task.competency_id,difficulty:task.difficulty,previous_submission_id:task.id,request_key:event.target.dataset.requestKey||(event.target.dataset.requestKey=key())}});
+          location.assign('study.html?id='+encodeURIComponent(next.id));
+        });
+      }
+      document.getElementById('study-retry')?.addEventListener('click',event=>run(event.target,async()=>{
+        await api('/study/tasks/'+encodeURIComponent(taskId)+'/retry',{method:'POST',body:{}});location.reload();
+      }));
+      document.getElementById('study-refresh')?.addEventListener('click',event=>run(event.target,refresh));
+      if(pending&&++polls<=120) setTimeout(()=>refresh().catch(showError),2000);
+    };
+    await refresh();
+  }
+
   async function documents() {
     shell('Документы и база знаний');
     const [catalog,documentList]=await Promise.all([api('/catalog'),api('/knowledge/documents')]);
@@ -226,6 +288,7 @@
     else if(['kb-1.html','kb-2.html'].includes(page)) await catalog();
     else if(page==='documents.html') await documents();
     else if(page==='profile-1.html') await profile();
+    else if(page==='study.html') await study();
     else {
       content.innerHTML='<h2>Функция ещё не перенесена на сервер</h2><p>Этот экран доступен в исходном прототипе. Серверная версия пока поддерживает авторизацию, объективные QA-сессии, план, историю, аналитику и избранное. Документы, RAG и ИИ-оценивание находятся в разработке.</p><a href="main.html">К учебному плану</a>';
     }
