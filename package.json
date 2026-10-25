@@ -1,0 +1,10 @@
+{
+  "name": "ai-interviewer",
+  "private": true,
+  "scripts": {
+    "test": "node tests/server-flow.cjs",
+    "test:legacy": "node front/tests/ui-smoke.cjs",
+    "test:legacy:flow": "node front/tests/interface-flow.cjs"
+  },
+  "devDependencies": {"playwright": "1.56.1"}
+}

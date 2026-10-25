@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.env
+*.db
+*.db-*
+node_modules/
+front/tests/artifacts/
+test-results/
+playwright-report/
+dist/
