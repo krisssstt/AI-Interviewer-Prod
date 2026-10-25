@@ -20,8 +20,27 @@ services:
       DATABASE_URL: postgresql+psycopg://interviewer:${POSTGRES_PASSWORD}@db:5432/interviewer
       APP_ORIGIN: http://127.0.0.1:8000
       COOKIE_SECURE: "false"
+      OLLAMA_URL: http://host.docker.internal:11434
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     depends_on:
       db:
+        condition: service_healthy
+  worker:
+    build: .
+    command: [python, -m, backend.app.worker, --watch]
+    environment:
+      DATABASE_URL: postgresql+psycopg://interviewer:${POSTGRES_PASSWORD}@db:5432/interviewer
+      OLLAMA_URL: http://host.docker.internal:11434
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    depends_on:
+      api:
         condition: service_healthy
 volumes:
   postgres_data:

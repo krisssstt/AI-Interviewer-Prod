@@ -2,36 +2,40 @@
 
 ## Реализовано
 
-Сохранён исходный прототип `front/`, инициализирован Git. Есть аудит, требования/план, ADR, архитектура и модель данных. FastAPI/SQLAlchemy/Alembic, миграция 34f69dec8cd4, 12 QA-компетенций и 12 авторских choice-вопросов, idempotent seed. Auth: Argon2id, непрозрачные cookie-сеансы, CSRF, Origin, DB rate limits, server profile/logout. Сессии: diagnostic/practice/exam, snapshots, серверный deadline, hint tracking, pause/resume/finish, idempotency и optimistic revision. Серверные история, аналитика режимов, версии плана и favorites. UI подключён API-клиентом без legacy-оценивания и выдачи локального банка ключей; дополнительные страницы честно ограничены.
+Сохранён прототип front/, инициализирован Git. Аудит, требования, ADR, архитектура, модель данных, план и инструкции. FastAPI/SQLAlchemy/Alembic, 12 QA-компетенций/choice-заданий, idempotent seed. Auth: Argon2id, HttpOnly cookie-сеансы, CSRF, Origin, DB rate limits, профиль/logout. Сессии diagnostic/practice/exam, snapshots, серверный deadline, hints, pause/resume/finish, request_key/revision. История, аналитика режимов, версии плана, favorites. API-клиент и серверный UI без legacy-оценивания/выдачи локальных ключей.
+
+Этап 4: 12 реальных авторских текстовых материалов; Document/Version/Chunk/Embedding, public/private ACL, административная роль и CLI назначения. TXT/Markdown upload/read/update/delete/reindex UI/API, provenance, lexical search, Ollama embedder, PostgreSQL vector/hybrid SQL. Durable worker с lease/backoff/3 attempts, batch/watch, восстановлением после остановки и защитой от воскрешения удалённого документа. Миграции до 75baf8ae2130. Compose включает отдельный worker; запуск контейнеров не проверен.
 
 ## Фактически выполненные проверки
 
-- Python 3.12.6, Node 24.21.0; зависимости установлены после повторения сетевого таймаута; npm Chromium установлен после сетевого retry.
-- `python -m alembic upgrade head` и seed: выполнены локально на SQLite, 12 competencies.
-- `python -m pytest -q`: 15 passed (до финальной записи этого этапа); один warning upstream Starlette/httpx deprecation, не ошибка.
-- `python -m alembic check`: No new upgrade operations detected.
-- `python -m pip check`: No broken requirements found.
-- `npm run test:legacy`: V3 SCENARIOS PASS, failures/errors пусты.
-- `npm run test:legacy:flow`: FAIL — скрытый SQL фильтр после перехода в избранное (`interface-flow.cjs:20`); исходные файлы не менялись. Не считать весь legacy suite зелёным.
-- `npm test`: SERVER FLOW PASS. Первый прогон остановился на слишком раннем assert истории; ожидание DOM исправлено. Визуально проверены светлый/тёмный скриншоты, исправлена ширина theme-button, наследовавшая 100% от исходных стилей.
-- `ruff check backend tests`: All checks passed; `pip check`: зависимости совместимы. Повторный seed сохраняет 12 записей без перезаписи версий.
+- Python 3.12.6, Node 24.21.0. Зависимости и Chromium установлены после сетевых retry, версии в lock-файлах.
+- alembic upgrade head и seed: выполнены на SQLite. Повторный seed не меняет существующие вопросы/материалы.
+- python -m pytest -q: 28 passed; один upstream warning Starlette/httpx deprecation.
+- ruff check backend tests evaluation: All checks passed.
+- alembic check: No new upgrade operations detected; pip check: No broken requirements found.
+- npm test: SERVER FLOW PASS, включая upload/readiness, поиск, auth/profile/favorites, pause/reload/retry/report/exam, светлую/тёмную темы и ширины 320–1440.
+- npm run test:legacy: V3 SCENARIOS PASS. npm run test:legacy:flow: PASS после исправления теста (раскрывать список тем перед SQL). Production legacy-код не менялся.
+- node front/tests/theme-profile.cjs: PASS; node front/tests/last-adjustments.cjs: PASS.
+- node front/tests/review-polish.cjs: FAIL — исчезающий React skill suggestion, click timeout на строке 13; не считать весь legacy suite зелёным.
+- python -m backend.app.worker --limit 1: фактический вызов embedder; embeddings не получены. Job retry, attempts=1, error_code=embedding_provider_unavailable_or_invalid. Успешной live-проверки модели нет.
+- python -m evaluation.retrieval: 800/1600/2400 символов, 6 development-запросов, document Recall@5=1.0, MRR@5≈0.867. Авторские, не экспертные метки. Final split не запускался. Отчёт docs/experiments/retrieval-development.json. После исправления случайного UUID tie-break ранги детерминированы.
+- PostgreSQL DDL компилируется offline; upgrade существующего пользователя, ACL, cascade delete, lease recovery, embedding timeout/invalid JSON и удаление во время provider call проверены автоматическими тестами.
 
-## Текущий этап
+## Текущий этап и границы
 
-Этапы 2–3 и части 7–8: стабилизация серверного вертикального сценария. Это **не готовый выпуск**, и QA ещё не объявляется полностью поддержанным. Схема и пороги плана пока ограниченные, по одному вопросу на компетенцию; повторение того же вопроса не должно подтверждать навык.
+Этап 4 реализован на SQLite/contract-уровне; PostgreSQL и успешные embeddings ещё не подтверждены. Этапы 2–3 и части 7–8 работают. Это НЕ готовый выпуск. QA-направление ещё не соответствует полному определению готовности. Банк содержит по одному вопросу на компетенцию; повторение того же вопроса не подтверждает знание. Пороги плана и chunk size остаются рабочими допущениями. Полного генеративного RAG ещё нет.
 
-## Незавершённое и ограничения
+## Незавершённое и блокеры
 
-1. Серверный vertical flow проверен и готов к коммиту; следующая работа — этап 4.
-2. Этап 4: durable ingestion/jobs, source versions, chunking, реальные embeddings + pgvector/hybrid retrieval, ACL и admin upload. Сейчас URL references — не RAG.
-3. Этапы 5–6: реальные заменяемые LLM adapters, JSON validation, budget/timeout, обучение/генерация, rubric evaluation и retry. Открытые ответы пока недоступны.
-4. Этап 7: расширить проверенный банк, вынести пороги в конфигурацию, учитывать сложность и давность; полная персонализация ещё не готова.
-5. Этапы 8–10: документы/администрирование/полная UI-интеграция, AI experiments, PostgreSQL integration, Compose/backup-restore, нагрузка.
+1. Проверить PostgreSQL/pgvector/Compose и успешный embedding provider. Docker не установлен. Offline SQL не доказывает runtime. Model digest пока автоматически не фиксируется; менять revision и переиндексировать при смене весов.
+2. Расширить корпус официальными извлечёнными текстами с соблюдением лицензий. Сейчас собственные краткие материалы; внешние ссылки не копируются. SQLite retrieval ограничен 1000 candidates. PDF/DOCX/OCR отсутствуют, TXT/Markdown работают.
+3. Этапы 5–6: реальный LLM port/adapter, AI runs, structured teaching outputs, budget/timeout, генерируемые упражнения и rubric evaluation с retry. Открытые ответы недоступны. До private RAG принять политику удаления связанных ИИ-артефактов.
+4. Этап 7: расширить проверенный банк и критерии, вынести пороги в конфигурацию, учитывать сложность/давность и недостаток данных. Полная персонализация ещё не готова.
+5. Этапы 8–10: резюме, полная UI-интеграция, AI experiments, PostgreSQL integration, backup/restore и нагрузка. Upload пока без request_key: сетевой повтор может создать дополнительный документ/версию; ответы и сессии идемпотентны.
+6. Экспертная разметка не получена. Генеративные live-запуски не выполнялись. Нет имитации успешной модели.
 
-Docker не установлен — запуск Compose/PostgreSQL/pgvector не проверен. LLM live не запускался, настройки/ключи не проверялись. Экспертная разметка не получена. Эти факты не заменяются mocks.
+В корне есть посторонний untracked-файл с именем, похожим на PowerShell activation command; не относится к коду. Не добавлен и не удалён. Временные БД и screenshots исключены из Git. Не перезаписывать чужие изменения.
 
-В корне появился посторонний untracked-файл с именем, похожим на PowerShell activation command; не относится к реализации, не добавлять и не удалять без выяснения происхождения. Чужие изменения не перезаписывались. Временные тестовые БД/скриншоты исключены из Git.
+## Следующие действия
 
-## Продолжение
-
-Прочитать AGENTS → этот файл → implementation-plan; git status/diff; сверить код. Ближайшее действие: этап 4 по требованиям FR-008/012/013, не начинать с генерации ответов без проверяемого корпуса. PostgreSQL и LLM live остаются непроверенными.
+Прочитать AGENTS → этот файл → implementation-plan; проверить git status/diff и код. Продолжить этап 5, независимо от недоступной внешней части: LLM adapter и сохранение запусков/источников, контракты ошибок и лимиты, затем интеграция учебного цикла. При доступном окружении закрыть PostgreSQL/embedding live-проверку этапа 4. Контекст и ограничения поддерживать здесь, а не только в чате.

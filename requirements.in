@@ -9,3 +9,4 @@ email-validator>=2.2,<3
 httpx>=0.28,<1
 pytest>=8,<10
 ruff>=0.9,<1
+pgvector>=0.4,<1

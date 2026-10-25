@@ -40,8 +40,32 @@ stateDiagram-v2
 
 Сервер использует существующие файлы страниц/стилей. При выдаче HTML убирает legacy scripts и для неавторизационных страниц заменяет локальное содержимое на loading shell. `server-ui.js` наполняет его серверными данными. CSS, шрифты, темы, auth-разметка сохранены. Банк ответов и прежние скрипты не раздаются сервером. Сложные исходные компоненты будут интегрироваться дальше; текущий адаптер обеспечивает основные маршруты, а не завершение визуальной миграции всех экранов.
 
+## Корпус и поиск
+
+Реализован `knowledge`: Document/DocumentVersion/Chunk/Embedding и IngestionJob; `knowledge/domain.py` очищает и разбивает текст, `service.py` выполняет ACL/версии/retrieval, `worker.py` обрабатывает durable jobs без открытой транзакции на время embedding-вызова. CLI `backend.app.worker` запускается отдельно от API. `knowledge/adapters.py` содержит Embedder port и реальный Ollama adapter; fake embedder используется только в тестах. Подробнее [ADR-0003](decisions/0003-knowledge-ingestion.md).
+
+```mermaid
+flowchart LR
+  Upload[TXT / Markdown] --> ACL[Права и лимиты]
+  ACL --> Version[Версия текста]
+  Version --> Job[(Persistent job)]
+  Job --> Worker[Отдельный worker с lease]
+  Worker --> Chunk[Структурные фрагменты]
+  Chunk --> Text[Текстовый поиск]
+  Chunk --> Adapter[Ollama embeddings]
+  Adapter --> Vector[(pgvector / model generation)]
+  Query[Запрос + scope + competency] --> Filters[ACL и активная версия]
+  Filters --> Text
+  Filters --> Vector
+  Text --> RRF[Ranking / RRF]
+  Vector --> RRF
+  RRF --> Context[Ограниченный контекст и provenance]
+```
+
+SQLite проверяет только lexical path. PostgreSQL SQL/DDL компилируется offline в тесте, это не выполнение на PostgreSQL. Векторный/гибридный поиск не деградирует скрытно в лексический. Отсутствие модели — retry/failed для embeddings, не нулевой вектор. Seed уже содержит реальный авторский текст и фрагменты, доступные без модели; это самостоятельная текстовая база, а не полный генеративный RAG.
+
 ## Запланированные границы ИИ
 
-knowledge: документы/версии/чанки/embeddings, ACL и retrieval; assessment: фиксированные критерии, задания и проверка структурированных оценок; серверные adapters: LLM и embeddings; persistent jobs: ingestion/evaluation с lease и retry. Они пока **не реализованы**. Провайдеры не влияют на предметные правила; embeddings индексируются по модели и размерности. Уточнение схемы — отдельная миграция/ADR на этапе 4.
+assessment: фиксированные критерии, генерируемые задания и проверка структурированных оценок; LLM adapter, AI runs и persistent evaluation jobs ещё **не реализованы**. Ingestion уже имеет lease/retry. Следующий этап должен связать найденные document/chunk versions с сохраняемыми ИИ-артефактами и решить удаление частного контекста до появления таких артефактов.
 
 Официальные API сверены перед использованием: [SQLAlchemy Session](https://docs.sqlalchemy.org/en/20/orm/session_basics.html), [Alembic tutorial](https://alembic.sqlalchemy.org/en/latest/tutorial.html), [FastAPI security/pwdlib](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/). Фактически установленные версии фиксируются `requirements.lock`, JS — `package-lock.json`.

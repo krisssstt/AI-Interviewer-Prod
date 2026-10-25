@@ -13,7 +13,7 @@ jobs:
           node-version: '22'
       - run: python -m venv .venv
       - run: .venv/bin/python -m pip install -r requirements.lock
-      - run: .venv/bin/python -m ruff check backend tests
+      - run: .venv/bin/python -m ruff check backend tests evaluation
       - run: .venv/bin/python -m pytest -q
       - run: npm ci
       - run: npx playwright install --with-deps chromium

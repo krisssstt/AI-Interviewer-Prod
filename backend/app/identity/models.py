@@ -1,7 +1,7 @@
 import time
 import uuid
 
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import ForeignKey, String, false
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ..db import Base
@@ -18,6 +18,7 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(String(512))
     name: Mapped[str] = mapped_column(String(60))
     direction: Mapped[str] = mapped_column(String(40), default='qa')
+    is_admin: Mapped[bool] = mapped_column(default=False, server_default=false())
     created_at: Mapped[float] = mapped_column(default=time.time)
 
 

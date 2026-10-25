@@ -25,20 +25,21 @@ erDiagram
 | answers | training | session+question unique, session+request_key unique, score CHECK 0–100, evaluation JSON |
 | learning_plans | learning | owner+version unique, rules version, ordered items snapshot |
 | favorites | learning | owner+competency composite PK |
+| knowledge_documents | knowledge | scope CHECK; private требует owner; current_version, title |
+| document_versions | knowledge | document+version unique; text/hash/source_title/URL/language/license/received_at/competency/status/chunker_version |
+| knowledge_chunks | knowledge | version+ordinal unique; section, offsets и actual text; FK cascade |
+| chunk_embeddings | knowledge | chunk+model_key unique; PostgreSQL native vector, SQLite JSON только для contract tests |
+| ingestion_jobs | knowledge | version+model_key unique; state CHECK; claim index, lease/token, attempts, available_at, безопасный error_code |
 
 Время — Unix seconds UTC; интерфейс отображает локальное время браузера. Снимок задания в сессии сохраняет формулировку, версию, критерии, ожидаемый ответ и источники до ответа. В Answer фиксируются ответ, hint_used, вычисленная оценка, источники и критерии; deterministic method version, model/prompt=null, parameters={}. Это намеренно не выдаётся за запуск ИИ. Старые snapshots не пересчитываются при публикации новой версии.
 
-QuestionVersion immutable по соглашению приложения: HTTP редактирования пока нет, seed не меняет существующие записи. Доступ к БД администратора может нарушить инвариант; нужна процедура новой версии вместо UPDATE. Источник сейчас ссылка, а не сохранённая версия документа, поэтому воспроизводимость внешнего содержимого ещё не обеспечена. Она требует этапа 4.
+QuestionVersion immutable по соглашению приложения: HTTP редактирования пока нет, seed не меняет существующие записи. Доступ к БД администратора может нарушить инвариант; нужна процедура новой версии вместо UPDATE. В question sources пока справочные ссылки, не FK на version корпуса. Авторские тексты корпуса уже версионированы отдельно; следующие генерируемые задания должны сохранять точные document_version/chunk ids.
 
 ## Следующие сущности (проект, не готовые таблицы)
 
-- knowledge_documents: владелец/общая область, формат, исходное имя, размер, hash, lifecycle;
-- document_versions: immutable text, URL/file origin, дата получения, язык, версия, лицензия;
-- chunks: версия документа, структурный путь/страница/offset, текст, тема, competency;
-- embeddings: chunk + embedding_model + index_generation, размерность и вектор pgvector;
 - rubrics: question version, критерии/веса/expected elements, публикация;
 - criterion_scores: answer, criterion snapshot, score, evidence spans, errors;
-- jobs: durable state, attempts, next_run, lease owner/expiry, bounded retries;
+- evaluation_jobs: durable state оценивания, attempts, next_run, lease owner/expiry, bounded retries;
 - ai_runs: purpose, model, prompt/version, parameters, context/source ids, status, timing, usage/cost.
 
-Пользовательские документы и общая база требуют ACL-фильтра **до** retrieval/LLM. Удаление частного документа должно каскадно удалить original/text/chunks/embeddings; старые отчёты потребуют отдельной политики удаления частного контекста без незаметной перегенерации оценки. Вопрос не решён в текущем этапе и будет закреплён ADR до загрузки документов.
+Пользовательские документы и общая база фильтруются по ACL **до** retrieval. Удаление документа каскадно удаляет все версии исходного текстового содержимого, фрагменты, embeddings и задания; проверено также удаление во время embedding-вызова. Бинарные оригиналы не принимаются: TXT/Markdown представлены canonical UTF-8 текстом. Старые ИИ-отчёты потребуют отдельной политики удаления частного контекста; такие отчёты пока не создаются. Не расширять генерацию на частные источники до решения этой политики.

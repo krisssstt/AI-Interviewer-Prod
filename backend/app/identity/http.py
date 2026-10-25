@@ -25,6 +25,7 @@ class Profile(BaseModel):
 
 def public_user(user, session):
     return {'id': user.id, 'email': user.email, 'name': user.name,
+            'is_admin': user.is_admin,
             'direction': user.direction, 'csrf_token': session.csrf,
             'expires_at': session.expires_at}
 

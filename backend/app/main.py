@@ -15,6 +15,7 @@ from .config import Settings
 from .db import database
 from .errors import RuleError
 from .identity.http import router as identity
+from .knowledge.http import router as knowledge
 from .learning.http import router as learning
 from .training.http import router as training
 
@@ -74,7 +75,7 @@ def create_app(settings=None):
             "base-uri 'self'; form-action 'self'")
         return response
 
-    for router in [identity, competencies, training, learning]:
+    for router in [identity, competencies, training, learning, knowledge]:
         app.include_router(router)
 
     @app.get('/api/health')

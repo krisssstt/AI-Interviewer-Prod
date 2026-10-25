@@ -1,0 +1,12 @@
+{
+  "provenance": "Project-authored held-out queries; human expert review required before final experiment",
+  "split": "final-unreviewed",
+  "queries": [
+    {"id":"final-01","query":"может ли пользователь прочитать чужой объект","competency_id":"qa-api-access"},
+    {"id":"final-02","query":"как избежать второго платежа после сбоя сети","competency_id":"qa-api-retry"},
+    {"id":"final-03","query":"сохранить строку без соответствия в правой таблице","competency_id":"qa-sql-join"},
+    {"id":"final-04","query":"фильтровать результат агрегации","competency_id":"qa-sql-groups"},
+    {"id":"final-05","query":"разделить данные на допустимые и недопустимые группы","competency_id":"qa-design-partitions"},
+    {"id":"final-06","query":"установить причину отказа зависимости по trace","competency_id":"qa-logs-diagnosis"}
+  ]
+}

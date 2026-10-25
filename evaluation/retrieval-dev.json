@@ -1,0 +1,12 @@
+{
+  "provenance": "Project-authored development queries and relevance by competency; not expert labels",
+  "split": "development",
+  "queries": [
+    {"id":"dev-01","query":"идемпотентность GET","competency_id":"qa-http-methods"},
+    {"id":"dev-02","query":"учётные данные 401","competency_id":"qa-http-status"},
+    {"id":"dev-03","query":"ETag условный запрос","competency_id":"qa-http-cache"},
+    {"id":"dev-04","query":"схема контракт API","competency_id":"qa-api-contract"},
+    {"id":"dev-05","query":"NULL сравнение SQL","competency_id":"qa-sql-null"},
+    {"id":"dev-06","query":"границы диапазона","competency_id":"qa-design-boundary"}
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "split": "development",
+  "labels": "Project-authored development queries and relevance by competency; not expert labels",
+  "method": "SQLite lexical overlap v1",
+  "corpus": "12 original project-authored QA notes, seeded v1",
+  "limitations": [
+    "Not expert labels",
+    "Not a vector/hybrid or LLM experiment",
+    "Final split not run",
+    "max_chars is characters, not tokens",
+    "Tiny corpus, no claim of generalization"
+  ],
+  "results": [
+    {
+      "max_chars": 800,
+      "Recall@5_document": 1.0,
+      "MRR@5_document": 0.8666666666666667,
+      "query_count": 6
+    },
+    {
+      "max_chars": 1600,
+      "Recall@5_document": 1.0,
+      "MRR@5_document": 0.8666666666666667,
+      "query_count": 6
+    },
+    {
+      "max_chars": 2400,
+      "Recall@5_document": 1.0,
+      "MRR@5_document": 0.8666666666666667,
+      "query_count": 6
+    }
+  ]
+}
